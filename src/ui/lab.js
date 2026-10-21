@@ -59,7 +59,7 @@ export function lab(host, { type = 'avl', keys = [], style = 'rotations', pickTy
       player.view.setOption(key, v);
     });
   const renderTools = () => {
-    tools.replaceChildren(
+    tools.replaceChildren(...[
       pickType &&
         h(
           'select',
@@ -78,7 +78,7 @@ export function lab(host, { type = 'avl', keys = [], style = 'rotations', pickTy
       viewToggle('Heights', 'showHeights'),
       viewToggle('Balance', 'showBalance'),
       viewToggle('Inorder', 'showInorder'),
-    );
+    ].filter(Boolean));
   };
   const preorder = (n, out = []) => {
     if (n) out.push(n.key), preorder(n.left, out), preorder(n.right, out);
