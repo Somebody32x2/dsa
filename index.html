@@ -2,6 +2,9 @@
 <html lang="en" data-site="dsa">
   <head>
     <meta charset="utf-8" />
+    <!-- Behind a prefix-stripping proxy, /education/dsa and /education/dsa/ reach nginx as the same request;
+         relative URLs only resolve with the slash, so add it before anything else loads. -->
+    <script>if (!/\/$|\.[a-z]+$/i.test(location.pathname)) location.replace(location.pathname + '/' + location.search + location.hash);</script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>DSA, visually</title>
     <meta name="description" content="Interactive, visual lessons on data structures and algorithms: AVL trees and rotations, the master theorem, with quizzes and generated practice." />

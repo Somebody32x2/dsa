@@ -133,6 +133,7 @@ button { font: inherit; color: inherit; }
 .topic-foot .go { color: var(--ink-strong); font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
 .topic-foot .go svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; }
 .hub-foot { margin-top: 56px; }
+.hub-up { margin: 0 0 28px; }
 
 .topbar { display: none; }
 .main { margin-left: var(--side); min-height: 100vh; }

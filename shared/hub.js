@@ -13,6 +13,8 @@ function solved(storage) {
 
 const main = h('main', { class: 'main', id: 'main' },
   h('article', { class: 'page home' },
+    // The DSA hub lives at samuelshuster.com/education/dsa/; one level up is the education homepage.
+    h('a', { class: 'up-link hub-up', href: '../', html: `${icon.arrow}<span>Education</span>` }),
     h('section', { class: 'hero' },
       h('div', { class: 'eyebrow', text: 'Data structures \u00b7 Algorithms' }),
       h('h1', { html: 'DSA, <em>seen</em>.' }),

@@ -3,7 +3,7 @@
 Interactive lessons on data structures and algorithms. Each topic is a self-contained compartment with
 animated figures you can step through, checkpoint quizzes, and practice that explains mistakes.
 
-**Live site:** https://somebody32x2.github.io/dsa/
+**Live site:** https://samuelshuster.com/education/dsa/ (part of [samuelshuster.com/education](https://samuelshuster.com/education/))
 
 | Compartment | Path | What it covers |
 |---|---|---|
@@ -18,6 +18,14 @@ No build step, no dependencies. ES modules need to be served over HTTP:
 npm start        # http://localhost:5173 (the hub; compartments at /trees/ and /master/)
 npm test         # model tests for every compartment (node:test, Node 22+)
 ```
+
+## Deployment
+
+Pushes to `main` deploy automatically. Coolify builds the `Dockerfile` (nginx serving the repo as is) and
+serves it at `samuelshuster.com/education/dsa`; the proxy strips that prefix before requests reach nginx.
+Every `index.html` adds the trailing slash itself (relative URLs need it), and `nginx.conf` serves folder
+indexes without nginx's own slash redirect, which would lose the prefix. The hub's "Education" link goes
+one level up, to the education homepage (a separate repo and Coolify app).
 
 ## Layout
 
