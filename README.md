@@ -27,6 +27,10 @@ Every `index.html` adds the trailing slash itself (relative URLs need it), and `
 indexes without nginx's own slash redirect, which would lose the prefix. The hub's "Education" link goes
 one level up, to the education homepage (a separate repo and Coolify app).
 
+The site is part of the Education PWA: each `index.html` links the homepage's `manifest.webmanifest` and
+registers its `sw.js` (scope `/education/`), which caches lessons as you open them so they work offline.
+Locally (no `/education/` above the site) those requests 404 and registration fails quietly.
+
 ## Layout
 
 ```
