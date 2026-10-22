@@ -4,6 +4,7 @@ import { figure } from './ui/figure.js';
 import { progress } from './ui/progress.js';
 import { chapters } from './lessons/index.js';
 import { caseFrames, tag } from './lessons/kit.js';
+import { REPO } from '../../shared/topics.js';
 
 const app = document.getElementById('app');
 const nav = h('nav', { class: 'nav', 'aria-label': 'Chapters' });
@@ -14,9 +15,11 @@ const menuBtn = h('button', {
   html: icon.menu,
   onclick: () => document.body.classList.toggle('nav-open'),
 });
+const upLink = () => h('a', { class: 'up-link', href: '../', html: `${icon.arrow}<span>All DSA topics</span>` });
 const sidebar = h(
   'aside',
   { class: 'sidebar' },
+  upLink(),
   h('a', { class: 'brand', href: '#/' }, h('span', { class: 'brand-mark', html: logo() }), h('span', { text: 'Tree Rotations' })),
   nav,
   h(
@@ -29,10 +32,10 @@ const sidebar = h(
         if (confirm('Clear all saved quiz answers?')) progress.reset();
       },
     }),
-    h('a', { class: 'link', href: 'https://github.com/Somebody32x2/tree-rotations', text: 'Source on GitHub' }),
+    h('a', { class: 'link', href: REPO, text: 'Source on GitHub' }),
   ),
 );
-app.append(h('header', { class: 'topbar' }, menuBtn, h('a', { class: 'brand', href: '#/' }, 'Tree Rotations')), sidebar, main);
+app.append(h('header', { class: 'topbar' }, menuBtn, h('a', { class: 'brand', href: '#/' }, 'Tree Rotations'), upLink()), sidebar, main);
 
 function logo() {
   return '<svg viewBox="0 0 24 24"><path d="M12 5 6.5 12M12 5l5.5 7M6.5 12 4 19M6.5 12 9 19" /><circle cx="12" cy="5" r="2.6" /><circle cx="6.5" cy="12" r="2.6" /><circle cx="17.5" cy="12" r="2.6" class="accent" /></svg>';

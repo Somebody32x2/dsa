@@ -1,58 +1,58 @@
-# Tree Rotations
+# DSA, visually
 
-Interactive lessons on binary trees, AVL trees, rotations and trinode restructuring,
-`restructure(x)`, with animated figures, checkpoint quizzes, endless drills and a playground.
+Interactive lessons on data structures and algorithms. Each topic is a self-contained compartment with
+animated figures you can step through, checkpoint quizzes, and practice that explains mistakes.
 
-**Live site:** https://somebody32x2.github.io/tree-rotations/
+**Live site:** https://somebody32x2.github.io/dsa/
 
-Notation follows Goodrich & Tamassia: **z** is the first unbalanced node, **y** its taller child, **x** y's
-taller child. **a, b, c** are x, y, z in inorder, and **T1 to T4** are the four subtrees hanging below
-them, left to right. Heights count a leaf as 1 and an empty subtree as 0.
-
-## Chapters
-
-1. Binary trees: vocabulary, inorder traversal
-2. Binary search trees: search, insert, why balance matters
-3. Height and balance: the AVL property, balance factors
-4. Rotations: left/right rotations, a click-to-rotate sandbox
-5. Trinode restructure: the four cases (LL, LR, RR, RL), single vs double rotation, one-step restructure
-6. AVL insertion: walkthroughs, including the textbook "insert 54" example
-7. AVL deletion: the tie rule and cascading restructures
-8. Restructure drills: random trees; find z, y, x, name the case, predict b
-9. Playground: AVL vs plain BST on any input
+| Compartment | Path | What it covers |
+|---|---|---|
+| Trees & AVL rotations | [`trees/`](trees/) | BSTs, height and balance, rotations, trinode restructure(x), AVL insertion and deletion, drills, playground |
+| The master theorem | [`master/`](master/) | Divide-and-conquer recurrences, recursion trees, the three cases, memorization drills, generated practice with guided walkthroughs, a step-by-step solver |
 
 ## Run locally
 
 No build step, no dependencies. ES modules need to be served over HTTP:
 
 ```sh
-npm start        # serves on http://localhost:5173
-npm test         # engine tests (node:test)
+npm start        # http://localhost:5173 (the hub; compartments at /trees/ and /master/)
+npm test         # model tests for every compartment (node:test, Node 22+)
 ```
-
-Any static server works (`python -m http.server`, etc.).
 
 ## Layout
 
 ```
-src/core/      Node, BinaryTree (BST + rotations + frame recording), layout, SVG TreeView
-src/trees/     AVLTree (restructure(x), rebalancing), registry of tree types
-src/ui/        Player (step-through), quiz, figures, lab (interactive tree)
-src/lessons/   one module per chapter; index.js sets the order
-tests/         engine tests
+index.html          umbrella homepage (shared/hub.js renders the topic cards)
+styles.css          shared design system (tokens, shell, figures, quizzes, scene SVG)
+shared/
+  topics.js         compartment registry: title, blurb, chapter list, path; the hub reads it
+  shell.js          mountSite({ site, chapters, hero, legend }): sidebar with "All DSA topics", router, home, pager
+  hub.js            homepage renderer
+  core/scene.js     keyed SVG renderer: items glide between frames by id
+  ui/               dom helpers, Player (stepper), checkpoint quizzes, figures, progress store
+trees/              Trees compartment (its own engine, TreeView and copy of the UI; predates shared/)
+master/             Master theorem compartment
+  src/model/        master.js (analysis, generator, walkthrough), frames.js (recursion-tree figures)
+  src/lessons/      one file per chapter; index.js sets the order
+  src/ui/           practice tool (generated questions + guided walkthrough)
+  tests/            model tests
 ```
 
-Operations return **frames**: `{ tree, caption, roles, tags, text, view }`. `TreeView` animates
-between frames by node id, using one column per node in inorder so rotations only move nodes
-vertically, and flashes links that changed.
+Each compartment's `index.html` sets `<html data-site="...">`, which namespaces its saved quiz progress.
 
-## Adding another tree type (red-black, splay, ...)
+## Adding a compartment
 
-1. Subclass `BinaryTree` in `src/trees/` and override `afterInsert(node, rec)` / `afterRemove(parent, rec)`.
-   Use `this.rotate(n)` and record frames with `rec.frame(caption, { roles, tags })`.
-2. Add it to `src/trees/registry.js`; it appears in the playground's type picker.
-3. For node colors (e.g. red/black), add a field to `snapshot()` and a matching class in `TreeView.updateNode`.
-4. Write lessons in `src/lessons/` and list them in `src/lessons/index.js` under a new group.
+1. Create `<topic>/index.html` (copy `master/index.html`; change `data-site`, title, description).
+2. `<topic>/src/main.js`: `mountSite({ site, chapters, hero, legend })` from `../../shared/shell.js`.
+3. Put the topic's model in `<topic>/src/model/` (no DOM) with tests in `<topic>/tests/`, and chapters in `<topic>/src/lessons/`.
+4. Add an entry to `shared/topics.js`; the homepage lists it.
+
+## Notation
+
+- Trees follow Goodrich & Tamassia: z is the first unbalanced node, y its taller child, x y's taller child;
+  a, b, c are x, y, z in inorder; T1 to T4 are the subtrees left to right.
+- The master theorem follows Proposition 13.1.22: T(n) = aT(n/b) + f(n), a ≥ 1, b > 1, with cases on
+  n^(log_b a) − ε, n^(log_b a) log^k n (k ≥ 0), and n^(log_b a) + ε with the regularity condition a f(n/b) ≤ c f(n).
 
 ## License
 

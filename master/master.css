@@ -1,0 +1,204 @@
+/* Master theorem compartment. Loaded after ../styles.css.
+   Color meaning, site-wide in this compartment:
+     case1 / leaves = blue    (the leaves dominate)
+     case2 / tie    = yellow  (every level costs the same)
+     case3 / root   = t3 rust (the root dominates)
+     none           = red     (the theorem does not apply) */
+
+/* ---------- math typography ---------- */
+.m { font-family: var(--serif); font-size: 1.08em; white-space: nowrap; color: var(--ink-strong); }
+.m sup, .formula sup { font-size: 0.68em; line-height: 0; }
+.m sub, .formula sub { font-size: 0.68em; line-height: 0; }
+.formula { font-family: var(--serif); font-size: 24px; text-align: center; color: var(--ink-strong); margin: 22px 0 26px; line-height: 1.6; }
+.formula.small { font-size: 19px; margin: 14px 0 18px; }
+
+/* ---------- inline tags ---------- */
+.tg-case1, .tg-leaves { background: var(--blue-bg); color: var(--blue); border-color: transparent; }
+.tg-case2, .tg-tie { background: var(--yellow-bg); color: var(--yellow); border-color: transparent; }
+.tg-case3, .tg-root { background: var(--t3-bg); color: var(--t3); border-color: transparent; }
+.tg-none { background: var(--red-bg); color: var(--red); border-color: transparent; }
+
+/* ---------- figure pills ---------- */
+.pill.tg-case1 rect, .pill.tg-leaves rect { fill: var(--blue-bg); stroke: none; }
+.pill.tg-case1 text, .pill.tg-leaves text { fill: var(--blue); }
+.pill.tg-case2 rect, .pill.tg-tie rect { fill: var(--yellow-bg); stroke: none; }
+.pill.tg-case2 text, .pill.tg-tie text { fill: var(--yellow); }
+.pill.tg-case3 rect, .pill.tg-root rect { fill: var(--t3-bg); stroke: none; }
+.pill.tg-case3 text, .pill.tg-root text { fill: var(--t3); }
+
+/* ---------- scene roles (recursion tree nodes, level-cost bars) ---------- */
+.role-case1, .role-leaves { --f: var(--blue-bg); --s: var(--blue); --sw: 2; --t: var(--blue); }
+.role-case2, .role-tie { --f: var(--yellow-bg); --s: var(--yellow); --sw: 2; --t: var(--yellow); }
+.role-case3, .role-root { --f: var(--t3-bg); --s: var(--t3); --sw: 2; --t: var(--t3); }
+.it.bar .box { --s: transparent; }
+.it.bar.role-case1 .box, .it.bar.role-leaves .box { --f: var(--blue); }
+.it.bar.role-case2 .box, .it.bar.role-tie .box { --f: var(--yellow); }
+.it.bar.role-case3 .box, .it.bar.role-root .box { --f: var(--t3); }
+.it.bar .box { --f: var(--line-strong); }
+.it.level-label .label { fill: var(--muted); font-weight: 500; }
+.it.cost-label .label { fill: var(--ink); }
+
+/* practice */
+/* Practice card (src/ui/practice.js): quiz card + settings row + stats in the foot. */
+.practice .quiz-head { flex-wrap: wrap; }
+.practice-settings { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; padding: 12px 22px; border-bottom: 1px solid var(--line); }
+.practice-group { display: flex; flex-wrap: wrap; gap: 6px; }
+.practice .chip.on::before { background: var(--ink-strong); border-color: var(--ink-strong); }
+.practice .chip.case-1.on::before { background: var(--blue); border-color: var(--blue); }
+.practice .chip.case-2.on::before { background: var(--yellow); border-color: var(--yellow); }
+.practice .chip.case-3.on::before { background: var(--t3); border-color: var(--t3); }
+.practice .chip.case-none.on::before { background: var(--red); border-color: var(--red); }
+.practice .quiz-body > .formula { margin: 8px 0 22px; }
+.practice .quiz-foot { align-items: center; gap: 12px; flex-wrap: wrap; }
+.practice-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+.practice-stats { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: center; font: 12.5px var(--mono); color: var(--muted); }
+.practice-stats b { color: var(--ink-strong); font-weight: 600; }
+.practice-per { display: inline-flex; flex-wrap: wrap; gap: 4px 10px; }
+.practice-case { white-space: nowrap; }
+.choice.selected { border-color: var(--ink-strong); background: var(--sunk); }
+.choice .m { font-size: 1em; }
+
+/* Walkthrough steps (walkthroughCard): numbered like ol.steps; the number turns green (right) or red (missed). */
+.wt { margin: 14px 0 8px; }
+.wt-steps { counter-reset: wt; list-style: none; padding: 0; margin: 0; }
+.wt-step { counter-increment: wt; position: relative; padding: 14px 0 14px 44px; border-top: 1px solid var(--line); }
+.wt-step::before {
+  content: counter(wt);
+  position: absolute;
+  left: 0;
+  top: 12px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  display: grid;
+  place-items: center;
+  font: 500 12px var(--mono);
+  color: var(--muted);
+  background: var(--surface);
+}
+.wt-step.now::before { border-color: var(--ink-strong); color: var(--ink-strong); }
+.wt-step.ok::before { border-color: var(--green); background: var(--green-bg); color: var(--green); }
+.wt-step.missed::before { border-color: var(--red); background: var(--red-bg); color: var(--red); }
+.wt-step.focus { border: 1px solid var(--ink-strong); border-radius: 8px; padding-left: 56px; padding-right: 14px; }
+.wt-step.focus::before { left: 14px; background: var(--ink-strong); border-color: var(--ink-strong); color: #fff; }
+.wt-step.focus + .wt-step { border-top: 0; }
+.wt-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-size: 15.5px; font-weight: 500; color: var(--ink-strong); padding-top: 3px; }
+.wt-mark { font-size: 12.5px; font-weight: 500; color: var(--red); }
+.wt-prompt { margin: 8px 0 12px; font-size: 15px; color: var(--ink); }
+.wt .choices { gap: 6px; }
+.wt .choice { padding: 8px 12px; font-size: 14.5px; }
+.wt-fields { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; }
+.wt-field { display: inline-flex; gap: 8px; align-items: center; }
+.wt-field .text-input { width: 120px; font-family: var(--mono); font-size: 14px; }
+.text-input.ok { border-color: var(--green); background: var(--green-bg); }
+.text-input.bad { border-color: var(--red); background: var(--red-bg); }
+.wt-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+.wt-msg { font-size: 14px; padding-top: 8px; }
+.wt-msg:empty { display: none; }
+.wt-msg.bad { color: var(--red); }
+.wt .feedback { margin: 12px 0 2px; }
+.feedback.shown { background: var(--sunk); }
+.wt-answer { font-size: 16px; padding-top: 8px; color: var(--ink-strong); }
+.wt-summary { font-size: 14.5px; color: var(--muted); padding: 12px 0 4px; border-top: 1px solid var(--line); }
+.wt-summary:empty { display: none; }
+
+/* Solver (lessons/walkthrough.js): the recurrence as a form with inline inputs. */
+.solver-form { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-family: var(--serif); font-size: 21px; color: var(--ink-strong); padding: 14px 0 6px; }
+.solver-form .key-input { width: 64px; text-align: center; font-size: 14px; padding: 5px 6px; }
+.solver-form .key-input.bad { border-color: var(--red); background: var(--red-bg); }
+.solver-form sup { position: relative; top: -12px; margin-left: -3px; }
+.solver-form sup .key-input { width: 54px; font-size: 13px; padding: 3px 4px; }
+.solver-form.off { display: none; }
+.solver-msg { font-size: 13.5px; color: var(--red); min-height: 1.4em; }
+.solver-note { font-size: 13.5px; color: var(--muted); padding: 6px 0; }
+.mistakes li > .wt { margin-top: 10px; }
+.mistakes .btn.small { margin-top: 8px; }
+/* walkthrough steps nested in an ol.steps keep their own numbering */
+.mistakes .wt-step { counter-increment: wt; }
+.mistakes .wt-step:not(.focus) { border-bottom: 0; }
+.mistakes .wt-step::before { content: counter(wt); }
+
+/* ---------- three-cases: the theorem card ---------- */
+.theorem { margin: 24px 0 28px; padding: 20px 24px 8px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.theorem .formula.small { margin: 10px 0 14px; }
+.theorem-cases { list-style: none; margin: 0; padding: 0; }
+.theorem-cases li { display: flex; gap: 14px; align-items: baseline; padding: 12px 0; border-top: 1px solid var(--line); }
+.theorem-cases .tg { flex: none; }
+.theorem-text { font-family: var(--serif); font-size: 17.5px; line-height: 1.6; color: var(--ink-strong); }
+.theorem-text sup, .theorem-text sub { font-size: 0.68em; }
+td.nowrap { white-space: nowrap; }
+
+/* ---------- fine-print ---------- */
+.reg-out .formula.small { margin: 12px 0 4px; }
+.reg-out ol.steps { margin-bottom: 6px; }
+
+/* ---------- memorize ---------- */
+.mnemonic { margin: 20px 0 22px; padding: 18px 22px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); font-family: var(--serif); font-size: 19px; line-height: 1.9; color: var(--ink-strong); }
+.mnemonic .tg { font-family: var(--sans); font-size: 13px; }
+.cloze { padding: 8px 0 4px; }
+.cloze-line, .recall-block { display: flex; gap: 14px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.recall-block { flex-wrap: wrap; align-items: flex-start; }
+.cloze-label { flex: none; width: 58px; }
+.cloze-text, .recall-text { font-family: var(--serif); font-size: 17.5px; line-height: 2.3; color: var(--ink-strong); }
+.cloze-text sup, .cloze-text sub, .recall-text sup, .recall-text sub { font-size: 0.68em; }
+.cloze-text sup { line-height: normal; }
+.cloze-blank.key-input { width: 4.6em; height: 26px; line-height: 1; padding: 0 6px; font-size: 14px; text-align: center; vertical-align: baseline; }
+.cloze-text sup .cloze-blank.key-input { width: 3.8em; height: 22px; font-size: 12.5px; vertical-align: 0.35em; }
+.cloze-blank.ok { border-color: var(--green); background: var(--green-bg); }
+.cloze-blank.bad { border-color: var(--red); background: var(--red-bg); }
+.cloze-fix { padding: 1px 5px; border-radius: 4px; }
+.cloze-fix.ok { background: var(--green-bg); color: var(--green); }
+.cloze-fix.bad { background: var(--red-bg); color: var(--red); }
+.cloze-palette { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 12px 0 4px; font-size: 13px; }
+.cloze-palette .btn.small { min-width: 34px; justify-content: center; font-family: var(--serif); font-size: 15px; padding: 3px 8px; }
+.cloze-actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; padding-top: 10px; }
+.cloze-misses { margin: 6px 0 0; padding-left: 20px; color: var(--ink); }
+.cloze-misses li { margin: 3px 0; }
+.recall-block .recall-input { flex: 1 1 360px; width: auto; min-width: 0; font-family: var(--serif); resize: vertical; }
+.recall-block .recall-answer, .recall-block > .cloze-actions { flex-basis: 100%; padding-left: 72px; }
+.recall-block .cloze-actions:empty { display: none; }
+.recall-block .drill-msg { min-height: 0; padding: 0; }
+.shortcut-form { flex-wrap: wrap; font-family: var(--serif); font-size: 18px; color: var(--ink-strong); padding: 12px 0 0; gap: 6px; }
+.key-input.short { width: 60px; text-align: center; font-size: 14px; padding: 4px 6px; }
+
+/* ---------- recurrences: code with a / b / f(n) marks ---------- */
+.tg-part-a { background: var(--t1-bg); color: var(--t1); border-color: transparent; }
+.tg-part-b { background: var(--t2-bg); color: var(--t2); border-color: transparent; }
+.tg-part-f { background: var(--t4-bg); color: var(--t4); border-color: transparent; }
+.rec-split { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 20px; align-items: start; padding-top: 12px; }
+@media (max-width: 860px) { .rec-split { grid-template-columns: 1fr; } }
+pre.code.rec-code { margin: 0; padding: 14px 0; font-size: 12.5px; }
+.rec-code .ln { display: block; padding: 0 18px; border-left: 3px solid transparent; }
+.rec-code .ln.mk-a { background: var(--t1-bg); border-left-color: var(--t1); }
+.rec-code .ln.mk-f { background: var(--t4-bg); border-left-color: var(--t4); }
+.rec-code .mk-b { color: var(--t2); font-weight: 600; text-decoration: underline; text-decoration-color: var(--t2); text-underline-offset: 3px; }
+.rec-side .formula.small { text-align: left; margin: 6px 0 14px; }
+.rec-parts { display: grid; grid-template-columns: auto 1fr; gap: 10px 12px; margin: 0; font-size: 14px; }
+.rec-parts dt { padding-top: 1px; }
+.rec-parts dd { margin: 0; color: var(--ink); }
+.rec-later { font-size: 13.5px; margin: 14px 0 0; }
+
+/* ---------- who-wins: sandbox and three-up compare grid ---------- */
+.ww-controls { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; padding: 12px 0 4px; }
+.ww-step { display: inline-flex; gap: 6px; align-items: center; }
+.ww-label { font: 500 13px var(--mono); color: var(--muted); margin-right: 2px; }
+.ww-val { min-width: 2.2em; text-align: center; font-size: 15px; color: var(--ink-strong); }
+.ww-step .btn.small { min-width: 30px; justify-content: center; }
+.ww-split { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 18px; align-items: center; }
+@media (max-width: 760px) { .ww-split { grid-template-columns: 1fr; } }
+.ww-readout { display: grid; grid-template-columns: auto 1fr; gap: 8px 12px; margin: 0; font-size: 14px; }
+.ww-readout dt { color: var(--muted); font-size: 13px; white-space: nowrap; }
+.ww-readout dd { margin: 0; }
+.ww-answer { padding: 0 6px 8px; font-size: 14px; }
+.compare-grid.three { grid-template-columns: repeat(3, 1fr); }
+.compare-grid.three .compare-cell { border-bottom: 0; border-right: 1px solid var(--line); }
+.compare-grid.three .compare-cell:last-child { border-right: 0; }
+@media (max-width: 760px) {
+  .compare-grid.three { grid-template-columns: 1fr; }
+  .compare-grid.three .compare-cell { border-right: 0; border-bottom: 1px solid var(--line); }
+  .compare-grid.three .compare-cell:last-child { border-bottom: 0; }
+}
+.rec-parts sup, .rec-later sup, .ww-readout sup { line-height: 0; }
+.compare-grid.three .compare-label { flex-direction: column; gap: 2px; }
+.compare-grid.three .compare-label sup { line-height: 0; }
