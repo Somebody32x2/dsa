@@ -9,8 +9,8 @@ export const topics = [
   {
     href: 'trees/',
     title: 'Trees & AVL rotations',
-    blurb: 'Binary search trees, balance, single and double rotations, restructure(x), and AVL insertion and deletion.',
-    chapters: ['BSTs', 'Height & balance', 'Rotations', 'restructure(x)', 'AVL insert', 'AVL delete', 'Drills', 'Playground'],
+    blurb: 'Binary search trees, balance, single and double rotations, restructure(x), AVL insertion and deletion, and their running times.',
+    chapters: ['BSTs', 'Height & balance', 'Rotations', 'restructure(x)', 'AVL insert', 'AVL delete', 'Running time', 'Drills', 'Playground'],
     storage: 'tree-rotations', // localStorage namespace of that compartment's quiz progress
     art: '<svg viewBox="0 0 120 80"><path d="M60 14 34 40M60 14l26 26M34 40 20 66M34 40l14 26" /><circle cx="60" cy="14" r="9" fill="var(--surface)" /><circle cx="34" cy="40" r="9" fill="var(--surface)" /><circle cx="86" cy="40" r="9" fill="var(--blue-bg)" /><circle cx="20" cy="66" r="9" fill="var(--surface)" /><circle cx="48" cy="66" r="9" fill="var(--surface)" /></svg>',
   },

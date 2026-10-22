@@ -7,7 +7,7 @@ animated figures you can step through, checkpoint quizzes, and practice that exp
 
 | Compartment | Path | What it covers |
 |---|---|---|
-| Trees & AVL rotations | [`trees/`](trees/) | BSTs, height and balance, rotations, trinode restructure(x), AVL insertion and deletion, drills, playground |
+| Trees & AVL rotations | [`trees/`](trees/) | BSTs, height and balance, rotations, trinode restructure(x), AVL insertion and deletion, running times (O(1) rotations and restructures, O(log n) search, insert, delete), drills, playground |
 | The master theorem | [`master/`](master/) | Divide-and-conquer recurrences, recursion trees, the three cases, memorization drills, generated practice with guided walkthroughs, a step-by-step solver |
 
 ## Run locally
