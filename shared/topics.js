@@ -22,4 +22,12 @@ export const topics = [
     storage: 'master',
     art: '<svg viewBox="0 0 120 80"><rect x="10" y="10" width="100" height="10" rx="2" fill="var(--surface)" /><rect x="22" y="28" width="76" height="10" rx="2" fill="var(--surface)" /><rect x="34" y="46" width="52" height="10" rx="2" fill="var(--surface)" /><rect x="44" y="64" width="32" height="10" rx="2" fill="var(--yellow-bg)" /></svg>',
   },
+  {
+    href: 'heaps/',
+    title: 'Heaps',
+    blurb: 'Heap order and complete binary trees stored in an array: insert with up-heap, removeMin with down-heap, both O(log n).',
+    chapters: ['Heaps'],
+    storage: 'heaps',
+    art: '<svg viewBox="0 0 120 80"><path d="M60 12 36 34M60 12l24 22M36 34 24 52M36 34l12 18" /><circle cx="60" cy="12" r="8" fill="var(--blue-bg)" /><circle cx="36" cy="34" r="8" fill="var(--surface)" /><circle cx="84" cy="34" r="8" fill="var(--surface)" /><circle cx="24" cy="52" r="8" fill="var(--surface)" /><circle cx="48" cy="52" r="8" fill="var(--surface)" /><rect x="25" y="64" width="70" height="12" rx="2" fill="var(--surface)" /><path d="M39 64v12M53 64v12M67 64v12M81 64v12" /></svg>',
+  },
 ];

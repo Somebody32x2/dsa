@@ -33,7 +33,7 @@ const main = h('main', { class: 'main', id: 'main' },
           h('p', { text: t.blurb }),
           h('ul', { class: 'topic-list' }, t.chapters.map((c) => h('li', { text: c }))),
           h('div', { class: 'topic-foot' },
-            h('span', { text: n > 0 ? `${n} checkpoint question${n === 1 ? '' : 's'} solved` : `${t.chapters.length} chapters` }),
+            h('span', { text: n > 0 ? `${n} checkpoint question${n === 1 ? '' : 's'} solved` : `${t.chapters.length} chapter${t.chapters.length === 1 ? '' : 's'}` }),
             h('span', { class: 'go', html: `Open ${icon.arrow}` }),
           ),
         );

@@ -9,13 +9,14 @@ animated figures you can step through, checkpoint quizzes, and practice that exp
 |---|---|---|
 | Trees & AVL rotations | [`trees/`](trees/) | BSTs, height and balance, rotations, trinode restructure(x), AVL insertion and deletion, running times (O(1) rotations and restructures, O(log n) search, insert, delete), drills, playground |
 | The master theorem | [`master/`](master/) | Divide-and-conquer recurrences, recursion trees, the three cases, memorization drills, generated practice with guided walkthroughs, a step-by-step solver |
+| Heaps | [`heaps/`](heaps/) | Heap order, complete binary trees stored in arrays (0-based index arithmetic), insert with up-heap, removeMin with down-heap, O(log n) running times, a sandbox |
 
 ## Run locally
 
 No build step, no dependencies. ES modules need to be served over HTTP:
 
 ```sh
-npm start        # http://localhost:5173 (the hub; compartments at /trees/ and /master/)
+npm start        # http://localhost:5173 (the hub; compartments at /trees/, /master/ and /heaps/)
 npm test         # model tests for every compartment (node:test, Node 22+)
 ```
 
@@ -48,6 +49,10 @@ master/             Master theorem compartment
   src/lessons/      one file per chapter; index.js sets the order
   src/ui/           practice tool (generated questions + guided walkthrough)
   tests/            model tests
+heaps/              Heaps compartment
+  src/model/heap.js min-heap (insert/up-heap, removeMin/down-heap) and tree + array frame builders
+  src/lessons/      heaps.js (the chapter); index.js sets the order
+  tests/            model tests
 ```
 
 Each compartment's `index.html` sets `<html data-site="...">`, which namespaces its saved quiz progress.
@@ -65,6 +70,8 @@ Each compartment's `index.html` sets `<html data-site="...">`, which namespaces 
   a, b, c are x, y, z in inorder; T1 to T4 are the subtrees left to right.
 - The master theorem follows Proposition 13.1.22: T(n) = aT(n/b) + f(n), a ≥ 1, b > 1, with cases on
   n^(log_b a) − ε, n^(log_b a) log^k n (k ≥ 0), and n^(log_b a) + ε with the regularity condition a f(n/b) ≤ c f(n).
+- Heaps follow Goodrich & Tamassia: a min-heap with the root at array index 0 (children 2i + 1 and 2i + 2,
+  parent ⌊(i − 1)/2⌋), the last node at index n − 1, up-heap after insert and down-heap after removeMin.
 
 ## License
 
