@@ -1,5 +1,8 @@
 # DSA, visually
 
+> **Moved.** This site now lives in [Somebody32x2/learn](https://github.com/Somebody32x2/learn), folder
+> [`dsa/`](https://github.com/Somebody32x2/learn/tree/main/dsa), with its full history. This repo is archived.
+
 Interactive lessons on data structures and algorithms. Each topic is a self-contained compartment with
 animated figures you can step through, checkpoint quizzes, and practice that explains mistakes.
 
